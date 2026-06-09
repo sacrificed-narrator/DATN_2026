@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.category.title}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-container" style="max-width: 500px; margin: 50px auto;">
+        <h2 class="admin-title" 
+            th:text="${category.id == null ? 'Thêm danh mục mới' : 'Cập nhật danh mục'}">
+        </h2>
+
+        <form th:action="@{/admin/categories/save}" method="post" 
+              th:object="${category}" class="admin-form">
+            
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-group">
+                <label for="categoryName" th:text="#{admin.category.name}">Tên danh mục</label>
+                <input type="text" id="categoryName" th:field="*{name}" 
+                       placeholder="Ví dụ: Hành động, Đua xe..." 
+                       required autofocus 
+                       style="font-size: 16px; padding: 12px;">
+            </div>
+
+            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
+                <button type="submit" class="btn-save" style="flex: 1; padding: 12px;">
+                    <span th:text="#{admin.category.save}">Lưu danh mục</span>
+                </button>
+                
+                <a th:href="@{/admin/categories}" class="btn-cancel" 
+                   th:text="#{admin.category.back}" 
+                   style="flex: 0.5; text-align: center;">
+                   Hủy bỏ
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+</html>

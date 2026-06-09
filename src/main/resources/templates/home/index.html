@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{home.title}"></title>
+</head>
+
+<main class="main-content">
+
+    <!-- ================= HOME PAGE ================= -->
+    <div th:if="${view == 'home'}">
+
+        <div th:each="entry : ${categoryProducts}">
+
+            <div class="category-header">
+                <h3 th:text="${entry.key.name}"></h3>
+
+                <a th:href="@{|/product/category/${entry.key.id}|}"
+                   class="view-more"
+                   th:text="#{home.viewMore}">
+                </a>
+            </div>
+
+            <div class="product-grid">
+                <div th:each="p : ${entry.value}" class="product-card">
+
+                    <a th:href="@{|/product/detail/${p.id}|}">
+                        <img th:src="@{|/images/products/${p.image}|}" />
+                    </a>
+
+                    <a th:href="@{|/product/detail/${p.id}|}">
+                        <b th:text="${p.name}"></b>
+                    </a>
+
+                    <div class="price">
+                        <span th:text="${p.price}"></span> Đồng
+                    </div>
+
+                    <a th:href="@{|/cart/add/${p.id}|}"
+                       class="btn-cart"
+                       th:text="#{home.addToCart}">
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================= SEARCH / FILTER RESULT ================= -->
+    <div th:if="${view == 'single'}">
+
+        <div class="category-header">
+            <h3>Kết quả tìm kiếm</h3>
+        </div>
+
+        <!-- Nếu không có sản phẩm -->
+        <div th:if="${#lists.isEmpty(products)}">
+            <p>Không tìm thấy sản phẩm.</p>
+        </div>
+
+        <!-- Nếu có sản phẩm -->
+        <div class="product-grid" th:if="${!#lists.isEmpty(products)}">
+
+            <div th:each="p : ${products}" class="product-card">
+
+                <a th:href="@{|/product/detail/${p.id}|}">
+                    <img th:src="@{|/images/products/${p.image}|}" />
+                </a>
+
+                <a th:href="@{|/product/detail/${p.id}|}">
+                    <b th:text="${p.name}"></b>
+                </a>
+
+                <div class="price">
+                    <span th:text="${p.price}"></span> $
+                </div>
+
+                <a th:href="@{|/cart/add/${p.id}|}"
+                   class="btn-cart"
+                   th:text="#{home.addToCart}">
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+</html>

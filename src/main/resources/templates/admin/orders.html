@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.order.title}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-container">
+        <h2 class="admin-title" th:text="#{admin.order.heading}"></h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 100px;" th:text="#{admin.order.id}">Mã đơn</th>
+                    <th th:text="#{admin.order.customer}">Khách hàng</th>
+                    <th th:text="#{admin.order.date}">Ngày đặt</th>
+                    <th th:text="#{admin.order.address}">Địa chỉ giao hàng</th>
+                    <th style="text-align: center;" th:text="#{admin.order.action}">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="o : ${orders}">
+                    <td>
+                        <b style="color: #1976d2;">#<span th:text="${o.id}"></span></b>
+                    </td>
+                    <td>
+                        <div style="font-weight: 600;" th:text="${o.account.username}"></div>
+                    </td>
+                    <td th:text="${#dates.format(o.createDate, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <small th:text="${o.address}" style="color: #666; display: block; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></small>
+                    </td>
+                    <td style="text-align: center;">
+                        <a th:href="@{|/admin/orders/${o.id}|}" 
+                           style="background: #e3f2fd; color: #1976d2; padding: 5px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600;">
+                           Xem chi tiết
+                        </a>
+                        <a th:href="@{|/admin/orders/delete/${o.id}|}" 
+                           th:onclick="|return confirm('#{admin.order.confirm}')|" 
+                           style="margin-left: 10px; color: #dc3545; text-decoration: none; font-size: 13px;">
+                           Xóa
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div th:if="${#lists.isEmpty(orders)}" style="text-align: center; padding: 40px; color: #999;">
+            Hiện chưa có đơn hàng nào.
+        </div>
+    </div>
+</main>
+</html>

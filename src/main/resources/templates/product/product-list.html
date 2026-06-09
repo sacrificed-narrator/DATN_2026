@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{product.list.title}"></title>
+</head>
+
+<main class="main-content">
+
+    <!-- CATEGORY PRODUCT LIST -->
+    <div class="category-header">
+        <h3 th:text="#{product.list.title}"></h3>
+    </div>
+
+    <div class="product-grid">
+
+        <div th:each="p : ${products}" class="product-card">
+
+            <a th:href="@{|/product/detail/${p.id}|}">
+                <img th:src="@{|/images/products/${p.image}|}" alt="">
+            </a>
+
+            <a th:href="@{|/product/detail/${p.id}|}">
+                <b th:text="${p.name}"></b>
+            </a>
+
+            <div class="price">
+                <span th:text="${p.price}"></span> $
+            </div>
+
+            <a th:href="@{|/cart/add/${p.id}|}"
+               class="btn-cart"
+               th:text="#{product.addToCart}">
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="${product.name}"></title>
+</head>
+
+<main class="main-content">
+    <div class="product-detail-container">
+        
+        <div class="product-image-large">
+            <img th:src="@{|/images/products/${product.image}|}" th:alt="${product.name}"/>
+        </div>
+
+        <div class="product-info-column">
+            <h1 th:text="${product.name}"></h1>
+            
+            <div class="product-meta">
+                <span class="category-tag" th:text="${product.category.name}"></span>
+                <span th:class="${product.available ? 'status-in-stock' : 'status-out-of-stock'}"
+                      th:text="${product.available ? 'Còn hàng' : 'Hết hàng'}"></span>
+            </div>
+
+            <div class="detail-price">
+                <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></span> đ
+            </div>
+
+            <div class="product-description-box">
+                <h4>Giới thiệu sản phẩm</h4>
+                <p th:text="${product.description}"></p>
+            </div>
+
+            <div class="action-area">
+                <a th:href="@{|/cart/add/${product.id}|}"
+                   class="btn-add-large"
+                   th:text="#{product.addToCart}">
+                </a>
+                <a th:href="@{/}" class="btn-back-link">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+        
+    </div>
+</main>
+</html>

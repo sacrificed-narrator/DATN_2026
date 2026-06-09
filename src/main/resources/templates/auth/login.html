@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{login.title}"></title>
+</head>
+
+<main style="padding-left:60px">
+    <div class="login-wrapper">
+        <div class="login-box">
+            <h2 th:text="#{login.heading}">Đăng nhập</h2>
+
+            <form th:action="@{/auth/login}" method="post">
+                <div class="form-group">
+                    <label th:text="#{login.username}"></label>
+                    <input type="text" name="username" placeholder="Tên đăng nhập" required>
+                </div>
+
+                <div class="form-group">
+                    <label th:text="#{login.password}"></label>
+                    <input type="password" name="password" placeholder="********" required>
+                </div>
+
+                <button type="submit" class="btn-submit" th:text="#{login.button}">
+                    Đăng nhập
+                </button>
+            </form>
+
+            <p th:if="${message}" th:text="${message}" class="error-msg"></p>
+        </div>
+    </div>
+</main>
+</html>

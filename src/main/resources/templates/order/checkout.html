@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{checkout.title}"></title>
+</head>
+
+<main style="padding-left:60px">
+<div class="checkout-container">
+        <h2 th:text="#{checkout.heading}">💳 Thanh toán</h2>
+        <hr style="border: 0.5px solid #eee; margin-bottom: 25px;">
+
+           <form id="checkoutForm" method="post">
+
+        <label>Địa chỉ:</label><br>
+        <input type="text" name="address" required style="width:300px;"><br><br>
+
+        <label>Phương thức thanh toán:</label><br>
+
+        <input type="radio" name="paymentMethod" value="COD" checked>
+        Thanh toán khi nhận hàng (COD)<br>
+
+        <input type="radio" name="paymentMethod" value="VNPAY">
+		Thanh toán qua VNPAY
+
+        <!-- Tổng tiền -->
+        <input type="hidden" name="amount" th:value="${total}">
+        <br>
+        <br>
+
+        <button type="submit"
+                style="padding:8px 15px;background:#1976d2;color:white;border:none;">
+            Đặt hàng
+        </button>
+    </form>
+
+    <br>
+    <a th:href="@{/cart/view}">Quay lại giỏ hàng</a>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="@{/cart/view}" style="text-decoration:none; color: #666; font-size: 14px;" 
+               th:text="#{checkout.backToCart}">← Quay lại giỏ hàng</a>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.getElementById("checkoutForm").addEventListener("submit", function (e) {
+
+        const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+        if (method === "VNPAY") {
+            this.action = "/order/checkout";
+        } else {
+            this.action = "/order/checkout";
+        }
+    });
+</script>
+
+</html>

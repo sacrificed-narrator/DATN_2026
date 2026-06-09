@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+<title>Thanh toán VNPAY</title>
+</head>
+
+<main style="padding-left: 200px;">
+
+	<h2>💳 Thanh toán VNPAY</h2>
+
+	<form method="post" th:action="@{/payment/vnpay}">
+		<input type="hidden" name="orderId" th:value="${orderId}">
+		<button type="submit"
+			style="padding: 8px 15px; background: #1976d2; color: white; border: none;">
+			Thanh toán ngay</button>
+	</form>
+
+</main>
+</html>

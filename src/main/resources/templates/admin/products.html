@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.product.title}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-header">
+        <h2 th:text="#{admin.product.heading}">Quản lý sản phẩm</h2>
+        <a th:href="@{/admin/products/create}" class="btn-add-new">
+            <span class="icon">+</span> <span th:text="#{admin.product.add}">Thêm sản phẩm mới</span>
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">ID</th>
+                    <th style="width: 80px;">Ảnh</th>
+                    <th th:text="#{admin.product.name}">Tên sản phẩm</th>
+                    <th th:text="#{admin.product.price}">Giá</th>
+                    <th th:text="#{admin.product.quantity}">Số lượng</th>
+                    <th th:text="#{admin.product.action}">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${products}">
+                    <td th:text="${p.id}" class="text-center font-bold"></td>
+                    <td>
+                        <img th:src="@{|/images/products/${p.image}|}" class="img-thumbnail" />
+                    </td>
+                    <td>
+                        <div th:text="${p.name}" class="product-name-cell"></div>
+                        <small class="category-text" th:text="${p.category.name}"></small>
+                    </td>
+                    <td class="price-cell">
+                        <span th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}"></span> đ
+                    </td>
+                    <td th:text="${p.quantity}" class="text-center"></td>
+                    <td class="action-cells">
+                        <a th:href="@{|/admin/products/edit/${p.id}|}" class="btn-edit">
+                            <i class="icon-edit"></i> Sửa
+                        </a>
+                        <a th:href="@{|/admin/products/delete/${p.id}|}"
+                           th:onclick="|return confirm('#{admin.product.confirm}')|" 
+                           class="btn-delete">
+                            Xóa
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</html>

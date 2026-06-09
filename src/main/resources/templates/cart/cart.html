@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{cart.title}"></title>
+</head>
+
+<main style="padding-left:60px">
+    <h2 th:text="#{cart.heading}"></h2>
+
+    <div th:if="${#lists.isEmpty(cart)}">
+        <p th:text="#{cart.empty}"></p>
+        <a th:href="@{/}" th:text="#{cart.continue}"></a>
+    </div>
+
+    <table class="cart-table" th:if="${!#lists.isEmpty(cart)}" border="1" width="100%">
+        <tr>
+            <th th:text="#{cart.name}"></th>
+            <th th:text="#{cart.price}"></th>
+            <th th:text="#{cart.quantity}"></th>
+            <th th:text="#{cart.total}"></th>
+            <th></th>
+        </tr>
+
+        <tr th:each="item : ${cart}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+
+            <td>
+                <a th:href="@{|/cart/minus/${item.id}|}">➖</a>
+                <span th:text="${item.quantity}"></span>
+                <a th:href="@{|/cart/plus/${item.id}|}">➕</a>
+            </td>
+
+            <td th:text="${item.totalPrice}"></td>
+
+            <td>
+                <a th:href="@{|/cart/remove/${item.id}|}">❌</a>
+            </td>
+        </tr>
+    </table>
+
+    <h3>
+        <span th:text="#{cart.sum}"></span>:
+        <span th:text="${total}"></span>
+    </h3>
+
+    <a th:href="@{/order/checkout}" class="btn-success" th:text="#{cart.checkout}"></a>
+    |
+    <a th:href="@{/}" class="btn-primary" th:text="#{cart.continue}"></a>
+</main>
+</html>

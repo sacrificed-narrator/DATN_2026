@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.account.manage}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="admin-title" th:text="#{admin.account.manage}"></h2>
+            <a th:href="@{/admin/accounts/create}" class="btn-save" style="text-decoration: none;">+ <span th:text="#{admin.account.add}"></span></a>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th th:text="#{admin.account.username}"></th>
+                    <th th:text="#{admin.account.email}"></th>
+                    <th th:text="#{admin.account.role}"></th>
+                    <th th:text="#{admin.account.activated}"></th>
+                    <th style="text-align: center;" th:text="#{admin.account.action}"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${accounts}">
+                    <td th:text="${a.username}" style="font-weight: 600;"></td>
+                    <td th:text="${a.email}"></td>
+                    <td>
+                        <span th:class="${a.role == 'ADMIN' ? 'badge-admin' : 'badge-user'}" 
+                              th:text="${a.role}" 
+                              style="padding: 4px 8px; border-radius: 4px; font-size: 11px; background: #f0f0f0;"></span>
+                    </td>
+                    <td th:text="${a.activated ? '✅' : '❌'}"></td>
+                    <td style="text-align: center;">
+                        <a th:href="@{|/admin/accounts/edit/${a.username}|}" style="color: #007bff; text-decoration: none;">Sửa</a>
+                        <span style="color: #ddd;"> | </span>
+                        <a th:href="@{|/admin/accounts/delete/${a.username}|}" 
+                           th:onclick="|return confirm('#{admin.account.confirm}')|" 
+                           style="color: #dc3545; text-decoration: none;">Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</html>

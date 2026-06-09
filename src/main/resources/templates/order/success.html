@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+<head>
+    <title th:text="#{order.success.title}"></title>
+</head>
+
+<main style="padding-left:60px">
+
+    <div class="status-container">
+        <h2>🎉</h2>
+        <h3 th:text="#{order.success.heading}">Đặt hàng thành công!</h3>
+    </div>
+
+    <div class="bill-container" th:if="${order}">
+        <div class="bill-header">
+            <h2 style="margin:0; color: #ffd400;">MÃ ĐƠN HÀNG: #<span th:text="${order.id}"></span></h2>
+            <p style="color:rgb(0, 0, 64); font-size: 13px;">Ngày đặt: <span th:text="${#dates.format(order.createDate, 'dd/MM/yyyy HH:mm')}"></span></p>
+        </div>
+
+        <div class="bill-section">
+            <h4>Thông tin người nhận</h4>
+            <div class="info-row">
+                <span class="info-label">Khách hàng:</span>
+                <span class="info-value" th:text="${order.receiverName}"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Số điện thoại:</span>
+                <span class="info-value" th:text="${order.phoneNumber}"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Địa chỉ nhận hàng:</span>
+                <span class="info-value" th:text="${order.address}"></span>
+            </div>
+        </div>
+
+        <div class="bill-section">
+            <h4>Chi tiết sản phẩm</h4>
+            <table class="bill-table">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th style="text-align: center;">SL</th>
+                        <th style="text-align: right;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="detail : ${order.orderDetails}">
+                        <td th:text="${detail.product.name}"></td>
+                        <td th:text="${detail.quantity}" style="text-align: center;"></td>
+                        <td th:text="${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'" 
+                            style="text-align: right; font-weight: 600;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bill-footer">
+            <div class="info-row" style="font-size: 18px;">
+                <span>TỔNG THANH TOÁN:</span>
+                <span class="price" style="font-size: 22px;" 
+                      th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a th:href="@{/}" class="btn-success" th:text="#{order.success.continue}">Tiếp tục mua sắm</a>
+    </div>
+
+</main>
+</html>

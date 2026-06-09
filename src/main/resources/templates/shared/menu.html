@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:fragment="menu">
+
+		<!-- TOP NAV -->
+		<nav class="top-nav">
+
+			<!-- LOGO -->
+			<div class="logo">
+				<a th:href="@{/}"> <img src="/images/logo.png" alt="Logo">
+				</a>
+			</div>
+
+			<!-- SEARCH -->
+			<form th:action="@{/}" method="get" class="search-box">
+				<input type="text" name="keyword"
+					th:placeholder="#{menu.search.placeholder}">
+				<button type="submit">🔍</button>
+			</form>
+
+			<!-- RIGHT MENU -->
+			<div class="right-menu">
+
+				<!-- CART -->
+				<a th:href="@{/cart/view}"> 🛒 <span th:text="#{menu.cart}"></span>
+				</a>
+
+				<!-- CHƯA LOGIN -->
+				<span th:if="${auth == null || !auth.login}"> <a
+					th:href="@{/auth/login}"> 🔑 <span th:text="#{menu.login}"></span>
+				</a>
+				</span>
+
+				<!-- ĐÃ LOGIN -->
+				<span th:if="${auth != null && auth.login}"> 👋 <span
+					th:text="#{menu.hello}"></span> <b th:text="${auth.user.username}"></b>
+
+					<a th:href="@{/account/profile}"> 👤 <span
+						th:text="#{menu.account}"></span>
+				</a> <!-- ADMIN ONLY --> <span th:if="${auth.admin}"> <a
+						th:href="@{/admin/dashboard}"> ⚙️ <span
+							th:text="#{menu.admin}"></span>
+					</a>
+				</span> <a th:href="@{/auth/logout}"> 🚪 <span th:text="#{menu.logout}"></span>
+				</a>
+				</span>
+
+			</div>
+		</nav>
+
+		<!-- CATEGORY BAR -->
+		<div class="category-bar">
+			<a th:href="@{/}" class="category-item" th:text="#{menu.home}"> </a>
+
+			<a th:each="c : ${categories}"
+				th:href="@{|/product/category/${c.id}|}" th:text="${c.name}"
+				class="category-item"> </a> </a>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

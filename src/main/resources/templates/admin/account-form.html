@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.account.info}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-container" style="max-width: 600px; margin: 30px auto;">
+        <h2 class="admin-title" th:text="#{admin.account.info}"></h2>
+
+        <form th:action="@{/admin/accounts/save}" method="post" th:object="${account}" class="admin-form">
+            <div class="form-group">
+                <label th:text="#{admin.account.username}"></label>
+                <input type="text" th:field="*{username}" th:readonly="${account.username != null}" required>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{admin.account.password}"></label>
+                <input type="password" th:field="*{password}" required>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{admin.account.email}"></label>
+                <input type="email" th:field="*{email}" required>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{admin.account.role}"></label>
+                <select th:field="*{role}">
+                    <option value="USER">Khách hàng (USER)</option>
+                    <option value="ADMIN">Quản trị viên (ADMIN)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" th:field="*{activated}" style="width: auto; margin-right: 10px;">
+                    <span th:text="#{admin.account.activated}"></span>
+                </label>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button type="submit" class="btn-save" th:text="#{admin.account.save}"></button>
+                <a th:href="@{/admin/accounts}" class="btn-cancel" th:text="#{admin.account.cancel}"></a>
+            </div>
+        </form>
+    </div>
+</main>
+</html>

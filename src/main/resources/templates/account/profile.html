@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{account.profile.title}">Thông tin cá nhân</title>
+</head>
+
+<main class="main-content">
+    <div class="profile-container" style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        
+        <div class="profile-header" style="text-align: center; margin-bottom: 30px;">
+            <div class="avatar-circle" style="width: 80px; height: 80px; background: #ffd400; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; margin: 0 auto 15px;">
+                <span th:text="${#strings.substring(account.username, 0, 1).toUpperCase()}">U</span>
+            </div>
+            <h2 th:text="#{account.profile.header}" style="margin: 0; color: #1a1a1a;">Thông tin tài khoản</h2>
+        </div>
+
+        <div th:if="${message}" class="alert alert-success" style="background: #e8f5e9; color: #2e7d32; padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-size: 14px;">
+            <i class="icon-check"></i> <span th:text="${message}">Cập nhật thành công</span>
+        </div>
+
+        <form th:action="@{/account/update}" method="post" th:object="${account}" class="admin-form">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;" th:text="#{account.profile.username}">Tên đăng nhập</label>
+                <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid #eee; font-weight: bold;">
+                    <input type="hidden" th:field="*{username}" />
+                    <span th:text="*{username}"></span>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;" th:text="#{account.profile.email}">Email</label>
+                <input type="email" th:field="*{email}" required 
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #555;" th:text="#{account.profile.password}">Mật khẩu mới</label>
+                <input type="password" th:field="*{password}" required
+                       placeholder="Nhập mật khẩu để cập nhật"
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 30px;">
+                <label style="font-size: 20px;display: block; font-weight: 600; margin-bottom: 8px; color: #555;" th:text="#{account.profile.role}">Quyền hạn</label>
+                <div style="font-size:25px;display: inline-block; padding: 4px 12px; background: #e3f2fd; color: #1976d2; border-radius: 20px; font-size: 12px; font-weight: bold;">
+                    <input type="hidden" th:field="*{role}" />
+                    <span th:text="*{role}"></span>
+                </div>
+            </div>
+
+            <input type="hidden" th:field="*{activated}" />
+
+            <button type="submit" class="btn-update" 
+                    style="width: 100%; padding: 14px; background: #ffd400; color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s;">
+                <span th:text="#{account.profile.update}">Cập nhật thông tin</span>
+            </button>
+        </form>
+    </div>
+</main>
+</html>

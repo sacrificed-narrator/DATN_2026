@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/shared/layout :: view(~{::title}, ~{::main})}">
+
+<head>
+    <title th:text="#{admin.order.detail.title}"></title>
+</head>
+
+<main class="main-content">
+    <div class="admin-container">
+        <h2 class="admin-title" th:text="#{admin.order.detail.title}"></h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+            <div>
+                <p><b>Mã đơn hàng:</b> #<span th:text="${order.id}"></span></p>
+                <p><b>Ngày đặt:</b> <span th:text="${#dates.format(order.createDate, 'dd/MM/yyyy HH:mm')}"></span></p>
+            </div>
+            <div>
+                <p><b>Khách hàng:</b> <span th:text="${order.account.username}"></span></p>
+                <p><b>Địa chỉ giao hàng:</b> <span th:text="${order.address}"></span></p>
+            </div>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th th:text="#{admin.order.product}">Sản phẩm</th>
+                    <th th:text="#{admin.order.price}">Giá</th>
+                    <th th:text="#{admin.order.quantity}">SL</th>
+                    <th th:text="#{admin.order.total}">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="d : ${order.orderDetails}">
+                    <td th:text="${d.product.name}" style="font-weight: 500;"></td>
+                    <td th:text="${#numbers.formatDecimal(d.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+                    <td th:text="${d.quantity}"></td>
+                    <td style="font-weight: bold; color: #e53935;" 
+                        th:text="${#numbers.formatDecimal(d.price * d.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align: right; padding: 15px; font-weight: bold;">TỔNG CỘNG:</td>
+                    <td style="font-size: 20px; font-weight: bold; color: #e53935; padding: 15px;">
+                        <span th:text="${#numbers.formatDecimal(order.orderDetails.![price * quantity].stream().mapToDouble(Double::doubleValue).sum(), 0, 'COMMA', 0, 'POINT')}"></span> đ
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a th:href="@{/admin/orders}" class="btn-save" style="text-decoration: none; padding: 12px 40px;" th:text="#{admin.order.back}"></a>
+        </div>
+    </div>
+</main>
+</html>
